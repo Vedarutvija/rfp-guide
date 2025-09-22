@@ -1,12 +1,29 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import { Header } from "@/components/Header";
+import { DashboardView } from "@/components/DashboardView";
+import { RFPUpload } from "@/components/RFPUpload";
+import { InquiryBot } from "@/components/InquiryBot";
 
 const Index = () => {
+  const [currentView, setCurrentView] = useState('dashboard');
+
+  const renderCurrentView = () => {
+    switch (currentView) {
+      case 'upload':
+        return <RFPUpload />;
+      case 'inquiry':
+        return <InquiryBot />;
+      default:
+        return <DashboardView />;
+    }
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-gradient-secondary">
+      <Header currentView={currentView} onViewChange={setCurrentView} />
+      <main className="container mx-auto px-6 py-8">
+        {renderCurrentView()}
+      </main>
     </div>
   );
 };
